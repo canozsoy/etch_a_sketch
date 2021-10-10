@@ -1,24 +1,30 @@
 let color = "black"
 
 createCanvas();
+writeSlider()
 
 // Event listeners
 
 document.querySelector("#selectColor").addEventListener("click", selectColorFunction)
 document.querySelector("#eraser").addEventListener("click", eraserFunction);
 document.querySelector("#clear").addEventListener("click", clearCanvas);
+document.querySelector("input[type='range']").addEventListener("change", writeSlider)
 
 
 function onHover() {
     this.style.backgroundColor = color;
 }
 
-function createCanvas() {
+function createCanvas(sliderValue) {
     const parentNode = document.querySelector("#canvas");
+    const divWidth = parentNode.getBoundingClientRect().width / sliderValue + "px";
+    parentNode.innerHTML = "";
     let i = 0;
-    while (i < 16 ** 2) {
+    while (i < sliderValue ** 2) {
         let div = document.createElement("div");
         div.addEventListener("pointermove", onHover);
+        div.style.width = divWidth;
+        div.style.height = divWidth;
         div.classList.add("box");
         parentNode.appendChild(div);
         i++;
@@ -47,6 +53,10 @@ function clearCanvas() {
     document.querySelectorAll(".box").forEach(x => x.style.backgroundColor = "white");
 }
 
-function selectColor() {
-
+function writeSlider() {
+    const slider = document.querySelector("#slider");
+    const sliderValue = slider.children[0].value;
+    slider.children[1].textContent = sliderValue;
+    console.log(sliderValue)
+    createCanvas(sliderValue);
 }
