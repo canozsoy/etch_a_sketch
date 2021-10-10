@@ -7,11 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch a Sketch</title>
     <link rel="stylesheet" href="./static/stylesheet.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="./script/script.js" defer></script>
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="header">Etch a Sketch</div>
+    <div id="content">
+        <div id="toolbar">
+            <div id="selectColor">
+                <i class="fa fa-pencil"></i> Pen
+            </div>
+            <div id="eraser">
+                <i class="fa fa-eraser"></i> Eraser
+            </div>
+            <div id="clear">
+                <i class="fa fa-times" aria-hidden="true"></i> Clear
+            </div>
+        </div>
+        <div id="canvas">
+
+        </div>
+    </div>
+    <div id="footer">2021, &copy Can Özsoy</div>
 </body>
 
 </html>
