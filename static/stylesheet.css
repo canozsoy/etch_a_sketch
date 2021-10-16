@@ -95,3 +95,12 @@ input[type="range"]::-moz-range-thumb {
     background: black;
     cursor: pointer;
 }
+
+#drawModeInfo {
+    font-size: 10px !important;
+    text-indent: 5px;
+}
+
+#drawModeInfo .fa {
+    padding-right: 5px;
+}

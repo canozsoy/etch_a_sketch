@@ -1,4 +1,6 @@
-let color = "black"
+let color = "black";
+let drawMode = false;
+let eraseMode = false;
 
 createCanvas();
 writeSlider()
@@ -10,9 +12,26 @@ document.querySelector("#eraser").addEventListener("click", eraserFunction);
 document.querySelector("#clear").addEventListener("click", clearCanvas);
 document.querySelector("input[type='range']").addEventListener("change", writeSlider)
 
+window.addEventListener("keydown", (event) => {
+    if (event.key === "d") {
+        const targetNode = document.querySelector("#drawMode");
+        if (!drawMode) {
+            targetNode.textContent = "Draw Mode: On";
+        } else {
+            targetNode.textContent = "Draw Mode: Off";
+        }
+        drawMode = !drawMode;
+    }
+})
+
+// Functions
 
 function onHover() {
-    this.style.backgroundColor = color;
+    if (!drawMode && !eraseMode) {
+        return;
+    } else {
+        this.style.backgroundColor = color;
+    }
 }
 
 function createCanvas(sliderValue) {
@@ -32,6 +51,7 @@ function createCanvas(sliderValue) {
 }
 
 function selectColorFunction() {
+    eraseMode = false;
     const colorInput = document.createElement("input");
     colorInput.setAttribute("type", "color");
     colorInput.value = color;
@@ -46,6 +66,7 @@ function setColor(event) {
 }
 
 function eraserFunction() {
+    eraseMode = true;
     color = "white";
 }
 
