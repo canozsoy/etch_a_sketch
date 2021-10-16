@@ -55,8 +55,11 @@ function clearCanvas() {
 
 function writeSlider() {
     const slider = document.querySelector("#slider");
-    const sliderValue = slider.children[0].value;
+    let sliderValue = slider.children[0].value;
+    const parentNodeWidth = document.querySelector("#canvas").getBoundingClientRect().width;
+    while (parentNodeWidth % sliderValue !== 0) { // eliminate float numbers
+        sliderValue--;
+    }
     slider.children[1].textContent = sliderValue;
-    console.log(sliderValue)
     createCanvas(sliderValue);
 }
