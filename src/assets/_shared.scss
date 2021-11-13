@@ -1,0 +1,14 @@
+$bg-color: #2e2c44;
+$font-color: #fff;
+$canvas-toolbar-dimension: 640px;
+
+@mixin centered-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin fill-parent {
+    width: 100%;
+    height: 100%;
+}
