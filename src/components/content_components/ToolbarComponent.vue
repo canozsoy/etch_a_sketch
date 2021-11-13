@@ -10,10 +10,16 @@
                 Press d to switch
             </div>
         </div>
-        <div id="selectColor">
+        <div
+            @click="selectColor"
+            id="selectColor"
+        >
             <font-awesome-icon icon="pencil-alt" /> Pen
         </div>
-        <div id="eraser">
+        <div
+            id="eraser"
+            @click="setErase"
+        >
             <font-awesome-icon icon="eraser" /> Eraser
         </div>
         <div
@@ -36,16 +42,17 @@ export default {
         CustomRangeInput
     },
     computed: {
-        ...mapGetters(["getDrawMode"]),
+        ...mapGetters(["getDrawMode", "getColor"]),
         drawMode: function () {
             return this.getDrawMode ? "On" : "Off";
         }
     },
     created: function () {
         window.addEventListener("keyup", this.drawKeyListener);
+        this.changeColor("#000");
     },
     methods: {
-        ...mapActions(["changeThickness", "changeDrawMode"]),
+        ...mapActions(["changeThickness", "changeDrawMode", "changeColor"]),
         clearCanvas() {
             this.$emit("clear-canvas");
         },
@@ -59,9 +66,23 @@ export default {
             if (event.key.toLowerCase() === "d") {
                 this.callDrawModeFunc();
             }
+        },
+        selectColor() {
+            const colorInput = document.createElement("input");
+            colorInput.setAttribute("type", "color");
+            colorInput.value = this.getColor;
+            colorInput.click();
+            colorInput.addEventListener("input", this.setColor);
+        },
+        setColor(event) {
+            this.changeColor(event.target.value);
+            this.$el.querySelector(".fa-pencil-alt").style.color = event.target.value;
+        },
+        setErase() {
+            this.changeColor("#fff")
         }
     },
-    beforeDestroy: function() {
+    beforeDestroy: function () {
         window.removeEventListener("keyup", this.drawKeyListener);
     }
 }

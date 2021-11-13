@@ -21,7 +21,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getThickness", "getDrawMode"]),
+        ...mapGetters(["getThickness", "getDrawMode", "getColor"]),
     },
     mounted: function () {
         const canvas = this.$el.querySelector("canvas");
@@ -46,7 +46,7 @@ export default {
         drawLine(x1, y1, x2, y2) {
             const ctx = this.ctx;
             ctx.beginPath();
-            ctx.strokeStyle = "#000";
+            ctx.strokeStyle = this.getColor;
             ctx.lineWidth = this.getThickness;
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
