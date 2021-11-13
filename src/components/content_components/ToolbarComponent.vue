@@ -13,10 +13,16 @@
         <div id="eraser">
             <font-awesome-icon icon="eraser" /> Eraser
         </div>
-        <div id="clear">
+        <div
+            id="clear"
+            @click="clearCanvas"
+        >
             <font-awesome-icon icon="times" /> Clear
         </div>
-        <custom-range-input />
+        <custom-range-input
+            :penThickness="penThickness"
+            @thickness-change="thicknessChange"
+        />
     </div>
 </template>
 
@@ -25,9 +31,23 @@ import CustomRangeInput from "@/components/helper_components/CustomRangeInput.vu
 
 export default {
     name: "ToolbarComponent",
+    props: {
+        penThickness: {
+            type: String,
+            required: true
+        }
+    },
     components: {
         CustomRangeInput
     },
+    methods: {
+        clearCanvas() {
+            this.$emit("clear-canvas");
+        },
+        thicknessChange(value) {
+            this.$emit("thickness-change", value)
+        }
+    }
 }
 </script>
 

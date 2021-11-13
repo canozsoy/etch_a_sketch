@@ -6,6 +6,7 @@
             :min="rangeInput.min"
             :max="rangeInput.max"
             v-model="rangeInput.value"
+            @change="thicknessChange"
         />
         <p>{{rangeInput.value}}</p>
     </div>
@@ -14,14 +15,25 @@
 <script>
 export default {
     name: "CustomRangeInput",
+    props: {
+        penThickness: {
+            type: String,
+            required: true
+        }
+    },
     data: function () {
         return {
             rangeInput: {
-                step: "2",
-                min: "8",
-                max: "160",
-                value: "16"
+                step: "1",
+                min: "1",
+                max: "10",
+                value: this.penThickness
             }
+        }
+    },
+    methods: {
+        thicknessChange() {
+            this.$emit("thickness-change", this.rangeInput.value);
         }
     }
 }
