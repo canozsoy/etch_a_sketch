@@ -1,7 +1,10 @@
 <template>
     <div id="toolbar">
         <div>
-            <div id="drawMode">Draw Mode: Off</div>
+            <div
+                id="drawMode"
+                @click="callDrawModeFunc"
+            >Draw Mode: {{drawMode}}</div>
             <div id="drawModeInfo">
                 <font-awesome-icon icon="info-circle" />
                 Press d to switch
@@ -19,34 +22,47 @@
         >
             <font-awesome-icon icon="times" /> Clear
         </div>
-        <custom-range-input
-            :penThickness="penThickness"
-            @thickness-change="thicknessChange"
-        />
+        <custom-range-input />
     </div>
 </template>
 
 <script>
 import CustomRangeInput from "@/components/helper_components/CustomRangeInput.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "ToolbarComponent",
-    props: {
-        penThickness: {
-            type: String,
-            required: true
-        }
-    },
     components: {
         CustomRangeInput
     },
+    computed: {
+        ...mapGetters(["getDrawMode"]),
+        drawMode: function () {
+            return this.getDrawMode ? "On" : "Off";
+        }
+    },
+    created: function () {
+        window.addEventListener("keyup", this.drawKeyListener);
+    },
     methods: {
+        ...mapActions(["changeThickness", "changeDrawMode"]),
         clearCanvas() {
             this.$emit("clear-canvas");
         },
         thicknessChange(value) {
-            this.$emit("thickness-change", value)
+            this.changeThickness(value);
+        },
+        callDrawModeFunc() {
+            this.changeDrawMode(!this.getDrawMode);
+        },
+        drawKeyListener(event) {
+            if (event.key.toLowerCase() === "d") {
+                this.callDrawModeFunc();
+            }
         }
+    },
+    beforeDestroy: function() {
+        window.removeEventListener("keyup", this.drawKeyListener);
     }
 }
 </script>

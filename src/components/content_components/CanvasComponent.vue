@@ -8,14 +8,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: "CanvasComponent",
-    props: {
-        penThickness: {
-            type: String,
-            required: true
-        }
-    },
     data: function () {
         return {
             canvas: "",
@@ -23,6 +19,9 @@ export default {
             prevX: 0,
             prevY: 0
         }
+    },
+    computed: {
+        ...mapGetters(["getThickness", "getDrawMode"]),
     },
     mounted: function () {
         const canvas = this.$el.querySelector("canvas");
@@ -38,7 +37,9 @@ export default {
             this.prevY = event.offsetY;
         },
         draw(event) {
-            this.drawLine(this.prevX, this.prevY, event.offsetX, event.offsetY);
+            if (this.getDrawMode) {
+                this.drawLine(this.prevX, this.prevY, event.offsetX, event.offsetY);
+            }
             this.prevX = event.offsetX;
             this.prevY = event.offsetY;
         },
@@ -46,7 +47,7 @@ export default {
             const ctx = this.ctx;
             ctx.beginPath();
             ctx.strokeStyle = "#000";
-            ctx.lineWidth = this.penThickness;
+            ctx.lineWidth = this.getThickness;
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
             ctx.stroke();

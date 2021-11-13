@@ -8,32 +8,35 @@
             v-model="rangeInput.value"
             @change="thicknessChange"
         />
-        <p>{{rangeInput.value}}</p>
+        <p>{{rangeInput.value}} px</p>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
     name: "CustomRangeInput",
-    props: {
-        penThickness: {
-            type: String,
-            required: true
-        }
-    },
     data: function () {
         return {
             rangeInput: {
                 step: "1",
                 min: "1",
                 max: "10",
-                value: this.penThickness
+                value: "3"
             }
         }
     },
+    created: function() {
+        this.changeThickness(this.rangeInput.value);
+    },
+    computed: {
+        ...mapGetters(["getThickness"]),
+    },
     methods: {
+        ...mapActions(["changeThickness"]),
         thicknessChange() {
-            this.$emit("thickness-change", this.rangeInput.value);
+            this.changeThickness(this.rangeInput.value);
         }
     }
 }

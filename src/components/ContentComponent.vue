@@ -1,12 +1,9 @@
 <template>
     <div id="content">
         <toolbar-component
-            :penThickness="penThickness"
-            @thickness-change="thicknessChange"
             @clear-canvas="clearCanvas"
         />
         <canvas-component
-            :penThickness="penThickness"
             ref="canvasComponent"
         />
     </div>
@@ -18,11 +15,6 @@ import CanvasComponent from "@/components/content_components/CanvasComponent.vue
 
 export default {
     name: "ContentComponent",
-    data: function () {
-        return {
-            penThickness: "1"
-        }
-    },
     components: {
         ToolbarComponent,
         CanvasComponent
@@ -31,9 +23,6 @@ export default {
         clearCanvas() {
             this.$refs.canvasComponent.clearCanvas();
         },
-        thicknessChange(value) {
-            this.penThickness = value;
-        }
     }
 }
 </script>
