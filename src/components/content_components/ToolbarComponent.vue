@@ -10,11 +10,16 @@
                 Press d to switch
             </div>
         </div>
-        <div
-            @click="selectColor"
-            id="selectColor"
-        >
-            <font-awesome-icon icon="pencil-alt" /> Pen
+        <div id="selectColor">
+            <input
+                v-model="colorValue"
+                @input="setColor"
+                type="color"
+                id="colorInput"
+            >
+            <label for="colorInput">
+                <font-awesome-icon icon="pencil-alt" /> Pen
+            </label>
         </div>
         <div
             id="eraser"
@@ -41,6 +46,11 @@ export default {
     components: {
         CustomRangeInput
     },
+    data: function () {
+        return {
+            colorValue: "#000"
+        }
+    },
     computed: {
         ...mapGetters(["getDrawMode", "getColor"]),
         drawMode: function () {
@@ -49,7 +59,7 @@ export default {
     },
     created: function () {
         window.addEventListener("keyup", this.drawKeyListener);
-        this.changeColor("#000");
+        this.changeColor(this.colorValue);
     },
     methods: {
         ...mapActions(["changeThickness", "changeDrawMode", "changeColor"]),
@@ -67,16 +77,9 @@ export default {
                 this.callDrawModeFunc();
             }
         },
-        selectColor() {
-            const colorInput = document.createElement("input");
-            colorInput.setAttribute("type", "color");
-            colorInput.value = this.getColor;
-            colorInput.click();
-            colorInput.addEventListener("input", this.setColor);
-        },
-        setColor(event) {
-            this.changeColor(event.target.value);
-            this.$el.querySelector(".fa-pencil-alt").style.color = event.target.value;
+        setColor() {
+            this.changeColor(this.colorValue);
+            this.$el.querySelector(".fa-pencil-alt").style.color = this.colorValue;
         },
         setErase() {
             this.changeColor("#fff")
@@ -111,6 +114,20 @@ export default {
         text-indent: 5px;
         .fa-info-circle {
             padding-right: 5px;
+        }
+    }
+    input[type="color"] {
+        position: fixed;
+        z-index: -1000;
+        width: 0;
+        padding: 0;
+        margin: 0;
+    }
+    #selectColor {
+        label {
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
     @media (max-width: $xs-media) {
