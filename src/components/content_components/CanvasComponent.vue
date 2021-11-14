@@ -24,17 +24,31 @@ export default {
         ...mapGetters(["getThickness", "getDrawMode", "getColor"]),
     },
     mounted: function () {
-        const canvas = this.$el.querySelector("canvas");
-        this.canvas = canvas;
-        const canvasParentDim = canvas.parentElement.getBoundingClientRect();
-        canvas.height = canvasParentDim.height;
-        canvas.width = canvasParentDim.width;
-        this.ctx = canvas.getContext("2d");
+        this.setUpCanvas();
+        window.addEventListener("resize", this.onResize);
     },
     methods: {
+        setUpCanvas() {
+            const canvas = this.$el.querySelector("canvas");
+            this.canvas = canvas;
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+            this.ctx = canvas.getContext("2d");
+        },
         setInitial(event) {
             this.prevX = event.offsetX;
             this.prevY = event.offsetY;
+        },
+        reDraw() {
+            const sourceCanvas = this.canvas.toDataURL();
+            this.clearCanvas();
+            this.setUpCanvas();
+            const image = new Image();
+            image.onload = () => {
+                this.ctx.drawImage(image, 0, 0);
+            }
+            image.src = sourceCanvas;
+
         },
         draw(event) {
             if (this.getDrawMode) {
@@ -55,7 +69,13 @@ export default {
         },
         clearCanvas() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        },
+        onResize() {
+            this.reDraw();
         }
+    },
+    beforeDestroy: function () {
+        window.removeEventListener("resize", this.onResize);
     }
 }
 </script>
@@ -71,6 +91,7 @@ export default {
     }
     canvas {
         width: 100%;
+        height: 100%;
         background: #fff;
     }
 }
