@@ -9,9 +9,13 @@ name: "FooterComponent"
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/_shared";
 #footer {
-    font-size: 18px;
+    font-size: 1rem;
     padding: 20px;
+    @media (max-width: $xs-media) {
+        font-size: 0.8rem;
+    }
 }
 
 </style>

@@ -93,10 +93,11 @@ export default {
 #toolbar {
     height: $canvas-toolbar-dimension;
     display: flex;
+    flex: 0 0 10%;
     flex-direction: column;
     justify-content: space-evenly;
     div {
-        font-size: 20px;
+        font-size: 1.2rem;
         text-align: left;
         &:hover {
             cursor: pointer;
@@ -110,6 +111,18 @@ export default {
         text-indent: 5px;
         .fa-info-circle {
             padding-right: 5px;
+        }
+    }
+    @media (max-width: $xs-media) {
+        flex: 0 0 90%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: auto;
+        justify-content: flex-start;
+        row-gap: 10px;
+        div {
+            font-size: 1rem;
+            flex: 0 1 48%;
         }
     }
 }

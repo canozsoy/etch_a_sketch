@@ -11,9 +11,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/_shared";
 #header {
-    font-size: 50px;
+    font-size: 3rem;
     padding: 50px;
     flex: 0;
+    @media (max-width: $xs-media) {
+        font-size: 2rem;
+    }
 }
 </style>

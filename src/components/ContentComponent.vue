@@ -33,5 +33,11 @@ export default {
     @include centered-flex;
     gap: 30px;
     flex: 1;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    @media (max-width: $xs-media) {
+        
+    }
 }
 </style>
