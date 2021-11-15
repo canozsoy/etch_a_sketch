@@ -2,8 +2,9 @@
     <div id="canvas">
         <canvas
             @mouseenter="setInitial"
+            @touchstart="setInitial"
             @mousemove="draw"
-            @touchmove="drawTouch"
+            @touchmove="draw"
         ></canvas>
     </div>
 </template>
@@ -38,31 +39,33 @@ export default {
             this.ctx = canvas.getContext("2d");
         },
         setInitial(event) {
-            this.prevX = event.offsetX;
-            this.prevY = event.offsetY;
+            event.preventDefault();
+            const { offsetX, offsetY } = this.getMousePosition(event);
+            this.prevX = offsetX;
+            this.prevY = offsetY;
+        },
+        getMousePosition(event) {
+            const clientX = event.clientX || event.touches[0].clientX;
+            const clientY = event.clientY || event.touches[0].clientY;
+            const { left, top } = event.target.getBoundingClientRect();
+            const offsetX = clientX - left;
+            const offsetY = clientY - top;
+            return { offsetX, offsetY };
         },
         draw(event) {
-            if (this.getDrawMode || this.getEraseMode) {
-                this.drawLine(this.prevX, this.prevY, event.offsetX, event.offsetY);
-            }
-            this.prevX = event.offsetX;
-            this.prevY = event.offsetY;
-        },
-        drawTouch(event) {
             event.preventDefault();
-            event.stopPropagation();
-            const touch = event.touches[0];
-            const mouseEvent = new MouseEvent("mousemove", {
-                offsetX: touch.clientX,
-                offsetY: touch.clientY
-            });
-            this.canvas.dispatchEvent(mouseEvent);
+            const { offsetX, offsetY } = this.getMousePosition(event);
+            if (this.getDrawMode || this.getEraseMode) {
+                this.drawLine(this.prevX, this.prevY, offsetX, offsetY);
+            }
+            this.prevX = offsetX;
+            this.prevY = offsetY;
         },
         drawLine(x1, y1, x2, y2) {
             const ctx = this.ctx;
             ctx.beginPath();
             ctx.strokeStyle = this.getColor;
-            ctx.lineWidth = this.getThickness;
+            ctx.lineWidth = +this.getThickness;
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
             ctx.stroke();
