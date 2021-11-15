@@ -1,5 +1,9 @@
 # Etch a Sketch
-Simple drawing tool to practice dom manipulation. Click link to draw! **Note: Not available for mobile view!**
+Canvas drawing tool written in vuejs. Click link to draw!
+
+## Releases
+* Vue.js version, includes canvas for drawing. Supported for web and mobile view.
+* Vanilla js version, simple dom manipulation drawing. Supported for web only.
 
 ## Project setup
 ```
