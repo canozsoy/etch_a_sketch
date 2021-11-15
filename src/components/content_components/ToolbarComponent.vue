@@ -1,10 +1,9 @@
 <template>
     <div id="toolbar">
         <div>
-            <div
-                id="drawMode"
-                @click="callDrawModeFunc"
-            >Draw Mode: {{drawMode}}</div>
+            <div id="drawMode" @click="callDrawModeFunc">
+                Draw Mode: {{ drawMode }}
+            </div>
             <div id="drawModeInfo">
                 <font-awesome-icon icon="info-circle" />
                 Press d to switch
@@ -16,21 +15,15 @@
                 @input="setColor"
                 type="color"
                 id="colorInput"
-            >
+            />
             <label for="colorInput">
                 <font-awesome-icon icon="pencil-alt" /> Pen
             </label>
         </div>
-        <div
-            id="eraser"
-            @click="setErase"
-        >
+        <div id="eraser" @click="setErase">
             <font-awesome-icon icon="eraser" /> Eraser
         </div>
-        <div
-            id="clear"
-            @click="clearCanvas"
-        >
+        <div id="clear" @click="clearCanvas">
             <font-awesome-icon icon="times" /> Clear
         </div>
         <custom-range-input />
@@ -61,8 +54,11 @@ export default {
         window.addEventListener("keyup", this.drawKeyListener);
         this.changeColor(this.colorValue);
     },
+    mounted: function() {
+        this.activatePenClass();
+    },
     methods: {
-        ...mapActions(["changeThickness", "changeDrawMode", "changeColor"]),
+        ...mapActions(["changeThickness", "changeDrawMode", "changeColor", "changeEraseMode"]),
         clearCanvas() {
             this.$emit("clear-canvas");
         },
@@ -77,11 +73,20 @@ export default {
                 this.callDrawModeFunc();
             }
         },
+        activatePenClass() {
+            document.querySelector("#selectColor").classList.add("active");
+            document.querySelector("#eraser").classList.remove("active");
+        },
         setColor() {
+            this.activatePenClass();
+            this.changeEraseMode(false);
             this.changeColor(this.colorValue);
             this.$el.querySelector(".fa-pencil-alt").style.color = this.colorValue;
         },
         setErase() {
+            document.querySelector("#selectColor").classList.remove("active");
+            document.querySelector("#eraser").classList.add("active");
+            this.changeEraseMode(true)
             this.changeColor("#fff")
         }
     },
@@ -127,6 +132,28 @@ export default {
         label {
             &:hover {
                 cursor: pointer;
+            }
+        }
+    }
+    #selectColor,
+    #eraser {
+        &::after {
+            display: block;
+            left: 0;
+            right: 0;
+            margin: auto;
+            margin-top: 2px;
+            background-color: $font-color;
+            color: transparent;
+            width: 0;
+            content: "";
+            height: 2px;
+            transition: all 0.5s ease-out;
+        }
+        &:hover,
+        &.active {
+            &::after {
+                width: 100%;
             }
         }
     }

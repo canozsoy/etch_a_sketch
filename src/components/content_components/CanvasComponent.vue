@@ -24,7 +24,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getThickness", "getDrawMode", "getColor"]),
+        ...mapGetters(["getThickness", "getDrawMode", "getColor", "getEraseMode"]),
     },
     mounted: function () {
         this.setUpCanvas();
@@ -42,7 +42,7 @@ export default {
             this.prevY = event.offsetY;
         },
         draw(event) {
-            if (this.getDrawMode) {
+            if (this.getDrawMode || this.getEraseMode) {
                 this.drawLine(this.prevX, this.prevY, event.offsetX, event.offsetY);
             }
             this.prevX = event.offsetX;
