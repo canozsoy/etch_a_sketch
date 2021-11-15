@@ -1,10 +1,12 @@
 <template>
     <div id="canvas">
         <canvas
-            @mouseenter="setInitial"
-            @touchstart="setInitial"
+            @mousedown="drawModeOn"
+            @mouseup="drawModeOff"
             @mousemove="draw"
+            @touchstart="drawModeOn"
             @touchmove="draw"
+            @touchend="drawModeOff"
         ></canvas>
     </div>
 </template>
@@ -25,7 +27,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getThickness", "getDrawMode", "getColor", "getEraseMode"]),
+        ...mapGetters(["getThickness", "getColor"]),
     },
     mounted: function () {
         this.setUpCanvas();
@@ -55,7 +57,7 @@ export default {
         draw(event) {
             event.preventDefault();
             const { offsetX, offsetY } = this.getMousePosition(event);
-            if (this.getDrawMode || this.getEraseMode) {
+            if (this.getDrawMode) {
                 this.drawLine(this.prevX, this.prevY, offsetX, offsetY);
             }
             this.prevX = offsetX;
@@ -73,6 +75,14 @@ export default {
         },
         clearCanvas() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        },
+        drawModeOn(event) {
+            event.preventDefault();
+            this.setInitial(event);
+            this.getDrawMode = true;
+        },
+        drawModeOff() {
+            this.getDrawMode = false;
         }
     },
 }

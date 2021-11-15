@@ -1,15 +1,11 @@
 const state = {
     color: null,
-    thickness: null,
-    drawMode: true,
-    eraseMode: false
+    thickness: null
 }
 
 const getters = {
     getColor: state => state.color,
     getThickness: state => state.thickness,
-    getDrawMode: state => state.drawMode,
-    getEraseMode: state => state.eraseMode
 }
 
 const actions = {
@@ -19,12 +15,6 @@ const actions = {
     changeThickness({ commit }, thickness) {
         commit("setThickness", thickness);
     },
-    changeDrawMode({ commit }, drawMode) {
-        commit("setDrawMode", drawMode);
-    },
-    changeEraseMode({commit}, eraseMode) {
-        commit("setEraseMode", eraseMode);
-    }
 }
 
 const mutations = {
@@ -34,12 +24,6 @@ const mutations = {
     setThickness(state, payload) {
         state.thickness = payload;
     },
-    setDrawMode(state, payload) {
-        state.drawMode = payload;
-    },
-    setEraseMode(state, payload) {
-        state.eraseMode = payload;
-    }
 }
 
 export default {

@@ -22,7 +22,7 @@ export default {
             rangeInput: {
                 step: "1",
                 min: "1",
-                max: "10",
+                max: "50",
                 value: "3"
             }
         }

@@ -1,18 +1,10 @@
 <template>
     <div id="toolbar">
-        <div>
-            <div id="drawMode" @click="callDrawModeFunc">
-                Draw Mode: {{ drawMode }}
-            </div>
-            <div id="drawModeInfo">
-                <font-awesome-icon icon="info-circle" />
-                Press d to switch
-            </div>
-        </div>
         <div id="selectColor">
             <input
-                v-model="colorValue"
+                @click="setColor"
                 @input="setColor"
+                v-model="colorValue"
                 type="color"
                 id="colorInput"
             />
@@ -45,16 +37,12 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getDrawMode", "getColor"]),
-        drawMode: function () {
-            return this.getDrawMode ? "On" : "Off";
-        }
+        ...mapGetters(["getColor"]),
     },
     created: function () {
-        window.addEventListener("keyup", this.drawKeyListener);
         this.changeColor(this.colorValue);
     },
-    mounted: function() {
+    mounted: function () {
         this.activatePenClass();
     },
     methods: {
@@ -68,25 +56,18 @@ export default {
         callDrawModeFunc() {
             this.changeDrawMode(!this.getDrawMode);
         },
-        drawKeyListener(event) {
-            if (event.key.toLowerCase() === "d") {
-                this.callDrawModeFunc();
-            }
-        },
         activatePenClass() {
             document.querySelector("#selectColor").classList.add("active");
             document.querySelector("#eraser").classList.remove("active");
         },
         setColor() {
             this.activatePenClass();
-            this.changeEraseMode(false);
             this.changeColor(this.colorValue);
             this.$el.querySelector(".fa-pencil-alt").style.color = this.colorValue;
         },
         setErase() {
             document.querySelector("#selectColor").classList.remove("active");
             document.querySelector("#eraser").classList.add("active");
-            this.changeEraseMode(true)
             this.changeColor("#fff")
         }
     },
