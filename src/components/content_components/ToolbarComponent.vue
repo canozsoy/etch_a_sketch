@@ -111,6 +111,10 @@ export default {
     }
     #selectColor {
         label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
             &:hover {
                 cursor: pointer;
             }
