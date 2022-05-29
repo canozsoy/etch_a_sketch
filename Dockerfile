@@ -10,4 +10,5 @@ FROM nginx:1.22.0-alpine@sha256:e012f7b78c91f50a8a98bec1b707e454f783c5cbc5a8caea
 WORKDIR /app
 COPY --from=build /app/dist .
 COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 9080
 CMD ["nginx", "-g", "daemon off;"]
